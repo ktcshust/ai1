@@ -18,7 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
-
+from util import PriorityQueue
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -95,9 +95,34 @@ def breadthFirstSearch(problem: SearchProblem):
     util.raiseNotDefined()
 
 def uniformCostSearch(problem: SearchProblem):
-    """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # Initialize the priority queue with the start state and cost 0
+    start_state = problem.getStartState()
+    priority_queue = PriorityQueue()
+    priority_queue.push((start_state, [], 0), 0)
+
+    # Initialize a set to keep track of visited states
+    visited = set()
+
+    while not priority_queue.isEmpty():
+        current_state, actions, cost = priority_queue.pop()
+
+        if current_state in visited:
+            continue  # Skip already visited states
+
+        visited.add(current_state)
+
+        if problem.isGoalState(current_state):
+            return actions  # Found a path to the goal
+
+        # Expand the current state and add successors to the priority queue
+        for successor, action, step_cost in problem.getSuccessors(current_state):
+            if successor not in visited:
+                new_actions = actions + [action]
+                new_cost = cost + step_cost
+                priority_queue.push((successor, new_actions, new_cost), new_cost)
+
+    return []  # Return an empty list if no path is found
+
 
 def nullHeuristic(state, problem=None):
     """
