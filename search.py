@@ -90,9 +90,33 @@ def depthFirstSearch(problem: SearchProblem):
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    """
+    Search the shallowest nodes in the search tree first.
+    """
+    start_state = problem.getStartState()
+    if problem.isGoalState(start_state):
+        return []
+
+    visited = set()
+    frontier = util.Queue()
+    frontier.push((start_state, []))
+
+    while not frontier.isEmpty():
+        current_state, actions = frontier.pop()
+
+        if current_state not in visited:
+            visited.add(current_state)
+
+            if problem.isGoalState(current_state):
+                return actions
+
+            successors = problem.getSuccessors(current_state)
+            for successor, action, _ in successors:
+                if successor not in visited:
+                    new_actions = actions + [action]
+                    frontier.push((successor, new_actions))
+
+    return []  # No solution found
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
