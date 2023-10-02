@@ -73,21 +73,43 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 def depthFirstSearch(problem: SearchProblem):
-    """
-    Search the deepest nodes in the search tree first.
+    # Initialize an empty stack to store the search nodes
+    stack = util.Stack()
 
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
+    # Create the initial search node with the start state and an empty action list
+    initial_node = (problem.getStartState(), [])
 
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
+    # Push the initial search node onto the stack
+    stack.push(initial_node)
 
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # Create an empty set to keep track of visited states
+    visited = set()
+
+    while not stack.isEmpty():
+        # Pop a node from the stack
+        current_state, actions = stack.pop()
+
+        # Check if the current state is the goal state
+        if problem.isGoalState(current_state):
+            return actions  # Return the list of actions to reach the goal
+
+        # Check if the current state has been visited before
+        if current_state not in visited:
+            # Mark the current state as visited
+            visited.add(current_state)
+
+            # Get the successor states and actions from the problem
+            successors = problem.getSuccessors(current_state)
+
+            for successor_state, action, _ in successors:
+                # Create a new search node with the successor state and updated actions
+                new_actions = actions + [action]
+                new_node = (successor_state, new_actions)
+
+                # Push the new node onto the stack
+                stack.push(new_node)
+
+    return []  # Return an empty list if no solution is found
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
