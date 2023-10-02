@@ -1,15 +1,16 @@
 # search.py
 # ---------
-# Licensing Information:  You are free to use or extend this codebase for educational purposes.
-# Credits must be included in all assignments, projects, and labs when using this code.
-# For example, include the following in your report:
-#
-# Code provided by AI for Everyone (ai4eonline.org)
-# Extended and modified for use in CSE140 by [Your Name]
-# (include your name in the comments if you extend or modify the code)
-#
-# This code is adapted from the UC Berkeley Pacman Project:
-# http://ai.berkeley.edu/search.html
+# Licensing Information:  You are free to use or extend these projects for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide clear
+# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
+# 
+# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
+# The core projects and autograders were primarily created by John DeNero
+# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
+# Student side autograding was added by Brad Miller, Nick Hay, and
+# Pieter Abbeel (pabbeel@cs.berkeley.edu).
+
 
 """
 In search.py, you will implement generic search algorithms which are called by
@@ -30,48 +31,48 @@ class SearchProblem:
         """
         Returns the start state for the search problem.
         """
-        raise NotImplementedError()
+        util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
+          state: Search state
+
         Returns True if and only if the state is a valid goal state.
         """
-        raise NotImplementedError()
+        util.raiseNotDefined()
 
     def getSuccessors(self, state):
         """
-        Returns a list of triples, (successor, action, stepCost), where 'successor'
-        is a successor to the current state, 'action' is the action
-        required to get there, and 'stepCost' is the incremental cost of expanding
-        to that successor.
+          state: Search state
+
+        For a given state, this should return a list of triples, (successor,
+        action, stepCost), where 'successor' is a successor to the current
+        state, 'action' is the action required to get there, and 'stepCost' is
+        the incremental cost of expanding to that successor.
         """
-        raise NotImplementedError()
+        util.raiseNotDefined()
 
     def getCostOfActions(self, actions):
         """
-        Returns the cost of a particular sequence of actions. If those actions
-        include an illegal move, return 999999.  This is implemented for you.
-        """
-        if actions is None:
-            return 999999
-        x, y = self.getStartState()
-        cost = 0
-        for action in actions:
-            # figure out the next state and see whether it's valid
-            x, y = x + util.dx[action], y + util.dy[action]
-            if not self.isStateValid((x, y)):
-                return 999999
-            cost += 1
-        return cost
+         actions: A list of actions to take
 
-    def isStateValid(self, state):
+        This method returns the total cost of a particular sequence of actions.
+        The sequence must be composed of legal moves.
         """
-        Returns True if the state is valid (not hitting walls or out of bounds).
-        """
-        raise NotImplementedError()
+        util.raiseNotDefined()
 
 
-def depthFirstSearch(problem):
+def tinyMazeSearch(problem):
+    """
+    Returns a sequence of moves that solves tinyMaze.  For any other maze, the
+    sequence of moves will be incorrect, so only use this for tinyMaze.
+    """
+    from game import Directions
+    s = Directions.SOUTH
+    w = Directions.WEST
+    return  [s, s, w, s, w, w, s, w]
+
+def depthFirstSearch(problem: SearchProblem):
     """
     Search the deepest nodes in the search tree first.
 
@@ -85,40 +86,15 @@ def depthFirstSearch(problem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    # Create a stack for DFS
-    stack = util.Stack()
-    # Push the start state and an empty path onto the stack
-    stack.push((problem.getStartState(), []))
-    # Create a set to keep track of visited states
-    visited = set()
+    "*** YOUR CODE HERE ***"
+    util.raiseNotDefined()
 
-    while not stack.isEmpty():
-        state, path = stack.pop()
-
-        # Check if the current state is the goal state
-        if problem.isGoalState(state):
-            return path
-
-        # If the current state has not been visited, mark it as visited
-        if state not in visited:
-            visited.add(state)
-
-            # Get successors of the current state
-            successors = problem.getSuccessors(state)
-
-            for successor, action, _ in successors:
-                if successor not in visited:
-                    stack.push((successor, path + [action]))
-
-    # If no path to the goal is found, return an empty list
-    return []
-
-def breadthFirstSearch(problem):
+def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
-def uniformCostSearch(problem):
+def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
@@ -126,17 +102,19 @@ def uniformCostSearch(problem):
 def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem. This heuristic is trivially 0 for all states.
+    goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
 
-def aStarSearch(problem, heuristic=nullHeuristic):
+def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
 
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
 ucs = uniformCostSearch
+
